@@ -17,6 +17,12 @@ public class TodoFormController {
     @Autowired
     private TodoItemRepository todoItemRepository;
 
+    @GetMapping("create-todo")
+    public String showCreateForm(Model model) {
+        model.addAttribute("todoItem", new TodoItem());
+        return "add-todo-item";
+    }
+
     @GetMapping("edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         TodoItem todoItem = todoItemRepository.findById(id).orElseThrow(() -> new IllegalArgumentException());

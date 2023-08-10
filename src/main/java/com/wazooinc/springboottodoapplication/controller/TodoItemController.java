@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,18 @@ public class TodoItemController {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("todoItems", todoItemRepository.findAll());
         return mv;
+    }
+
+    @PostMapping("todo")
+    public String addTodoItem(@Valid TodoItem todoItem, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            return "add-todo-item";
+        }
+
+        todoItem.setCreatedDate(Instant.now());
+        todoItem.setModifiedDate(Instant.now());
+        todoItemRepository.save(todoItem);
+        return "redirect:/";
     }
 
     @PostMapping("/todo/{id}")
