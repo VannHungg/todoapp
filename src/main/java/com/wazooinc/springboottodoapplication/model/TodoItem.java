@@ -1,6 +1,7 @@
 package com.wazooinc.springboottodoapplication.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.Instant;
@@ -15,6 +16,7 @@ public class TodoItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "Description is required")
     private String description;
     private boolean complete;
     private Instant createdDate;
